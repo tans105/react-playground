@@ -38,7 +38,7 @@ class App extends Component {
                         return <li key={word}>{word}</li>
                     })}
                 </ul>
-                <TestComponent/>
+                <TestComponent user_name={this.state.user_name}/>
                 <button onClick={() => console.log("Whoaaaa did you just press me ")}>Press Me !</button>
                 <button onClick={this.consoleLog.bind(this)}>Press Me again!</button>
             </div>

@@ -1,14 +1,8 @@
 import './App.css';
 import {Component} from "react";
 import {TestComponent} from "./components/TestComponent";
-import {Button, Navbar, Nav, NavDropdown, Form, FormControl} from "react-bootstrap";
+import {Button, Navbar, Nav, NavDropdown, Form, FormControl, Table} from "react-bootstrap";
 import Select from 'react-select';
-
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
 
 class App extends Component {
 
@@ -17,25 +11,37 @@ class App extends Component {
         this.state = {
             array: ['apple', 'mango', 'orange', 'banana'],
             user_name: 'USER 1',
-            selectedOption: null,
+            selectedOption: {value: null},
+            jsonList: []
         };
     }
 
     handleChange = selectedOption => {
         this.setState(
-            { selectedOption },
+            {selectedOption},
             () => console.log(`Option selected:`, this.state.selectedOption)
         );
     };
 
     componentDidMount() {
-        console.log('componentDidMount');
+        fetch('http://www.json-generator.com/api/json/get/bVGbNZouuW?intent=2', {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(json => this.setState(
+                {jsonList: json}
+            ))
+            .catch(err => console.log(err));
     }
+
 
     render() {
         const word = 'tanmay';
         const {array} = this.state;
-        const { selectedOption } = this.state;
+        const {selectedOption} = this.state;
+        const selectList = this.state.jsonList.map(json => {
+            return {value: json.name, label: json.name}
+        })
 
         // var arrayToRender = [];
         //
@@ -81,7 +87,7 @@ class App extends Component {
                     <Select
                         value={selectedOption}
                         onChange={this.handleChange.bind(this)}
-                        options={options}
+                        options={selectList}
                     />
 
                     <div className="row">
@@ -95,6 +101,29 @@ class App extends Component {
                             </button>
                         </div>
                     </div>
+                    <hr/>
+                    <Table striped bordered condensed hover>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Address</th>
+                            <th>Company</th>
+                        </tr>
+                        <tbody>
+                        {this.state.jsonList.map(item => {
+                            if (this.state.selectedOption.value == null || item.name === this.state.selectedOption.value ) {
+                                return (
+                                    <tr>
+                                        <td>{item.name}</td>
+                                        <td>{item.age}</td>
+                                        <td>{item.address}</td>
+                                        <td>{item.company}</td>
+                                    </tr>
+                                )
+                            }
+                        })}
+                        </tbody>
+                    </Table>
                 </div>
             </div>
         );

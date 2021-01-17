@@ -2,8 +2,10 @@ import {Component} from "react";
 import {TestComponent} from "./TestComponent";
 import {Button, Navbar, Nav, NavDropdown, Form, FormControl, Table} from "react-bootstrap";
 import Select from 'react-select';
+import {fetchInfo} from "../actions/actions_info";
+import {connect} from 'react-redux';
 
-class App extends Component {
+class AppComponent extends Component {
 
     constructor(props) {
         super(props)
@@ -23,14 +25,7 @@ class App extends Component {
     };
 
     componentDidMount() {
-        fetch('http://www.json-generator.com/api/json/get/bVGbNZouuW?intent=2', {
-            method: 'GET'
-        })
-            .then(response => response.json())
-            .then(json => this.setState(
-                {jsonList: json}
-            ))
-            .catch(err => console.log(err));
+        this.props.dispatch(fetchInfo());
     }
 
 
@@ -110,7 +105,7 @@ class App extends Component {
                         </tr>
                         <tbody>
                         {this.state.jsonList.map(item => {
-                            if (this.state.selectedOption.value == null || item.name === this.state.selectedOption.value ) {
+                            if (this.state.selectedOption.value == null || item.name === this.state.selectedOption.value) {
                                 return (
                                     <tr>
                                         <td>{item.name}</td>
@@ -137,5 +132,5 @@ class App extends Component {
 
 }
 
-
+const App = connect()(AppComponent);
 export default App;

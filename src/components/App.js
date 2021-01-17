@@ -1,6 +1,5 @@
-import './App.css';
 import {Component} from "react";
-import {TestComponent} from "./components/TestComponent";
+import {TestComponent} from "./TestComponent";
 import {Button, Navbar, Nav, NavDropdown, Form, FormControl, Table} from "react-bootstrap";
 import Select from 'react-select';
 

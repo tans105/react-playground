@@ -5,7 +5,7 @@ import Select from 'react-select';
 import {fetchInfo} from "../actions/actions_info";
 import {connect} from 'react-redux';
 
-class AppComponent extends Component {
+class App extends Component {
 
     constructor(props) {
         super(props)
@@ -25,7 +25,7 @@ class AppComponent extends Component {
     };
 
     componentDidMount() {
-        this.props.dispatch(fetchInfo());
+        this.props.dispatch(fetchInfo()); //alerting rest of redux that something is happening
     }
 
 
@@ -33,7 +33,7 @@ class AppComponent extends Component {
         const word = 'tanmay';
         const {array} = this.state;
         const {selectedOption} = this.state;
-        const selectList = this.state.jsonList.map(json => {
+        const selectList = this.props.info.map(json => {
             return {value: json.name, label: json.name}
         })
 
@@ -96,18 +96,20 @@ class AppComponent extends Component {
                         </div>
                     </div>
                     <hr/>
-                    <Table striped bordered condensed hover>
+                    <Table striped bordered condensed='true' hover>
+                        <thead>
                         <tr>
                             <th>Name</th>
                             <th>Age</th>
                             <th>Address</th>
                             <th>Company</th>
                         </tr>
+                        </thead>
                         <tbody>
-                        {this.state.jsonList.map(item => {
+                        {this.props.info.map(item => {
                             if (this.state.selectedOption.value == null || item.name === this.state.selectedOption.value) {
                                 return (
-                                    <tr>
+                                    <tr key={item.name}>
                                         <td>{item.name}</td>
                                         <td>{item.age}</td>
                                         <td>{item.address}</td>
@@ -129,8 +131,7 @@ class AppComponent extends Component {
         });
         console.log("Whoaaaa did you just press me ... again !");
     }
-
 }
 
-const App = connect()(AppComponent);
 export default App;
+

@@ -8,7 +8,7 @@ export function fetchInfo() {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                dispatch(loadInfo(json))
+                dispatch(loadInfo(json)) //loading the payload for the reducers. Dispatch function will alert the reducer
             })
             .catch(err => console.log(err));
     }

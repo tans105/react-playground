@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import App from './components/App';
+import App from './containers/App';
 import {applyMiddleware, createStore} from "redux";
 import {Provider} from "react-redux";
 import thunk from "redux-thunk";
